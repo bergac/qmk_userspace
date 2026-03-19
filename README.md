@@ -6,19 +6,45 @@ This is the splitkb userspace repository. It allows for an external set of QMK k
 
 ## Supported Keyboards
 
-Current supported keyboards:
+Supported controllers:
 
-- Halcyon Kyria (rev4)
-- Halcyon Elora (rev2)
-- Halcyon Corne (rev2)
-- Halcyon Ferris (rev1)
-- Halcyon Lily58 (rev2)
-- Aurora Sweep (rev1)
-- Aurora Lily58 (rev1)
-- Aurora Corne (rev1)
-- Aurora Helix (rev1)
-- Aurora Sofle v2 (rev1)
-- Kyria (rev3)
+| Controller name |
+| :--- |
+| Halcyon Wired controller |
+
+
+Supported keyboards:
+
+| Keyboard name | Keyboard variable |
+| :--- | :--- |
+| Halcyon Kyria (rev4) | `splitkb/halcyon/kyria/rev4` |
+| Halcyon Elora (rev2) | `splitkb/halcyon/elora/rev2` |
+| Halcyon Corne (rev2) | `splitkb/halcyon/corne/rev2` |
+| Halcyon Ferris (rev1) | `splitkb/halcyon/ferris/rev1` |
+| Halcyon Lily58 (rev2) | `splitkb/halcyon/lily58/rev2` |
+| Aurora Sweep (rev1) | `splitkb/aurora/sweep/rev1` |
+| Aurora Lily58 (rev1) | `splitkb/aurora/lily58/rev1` |
+| Aurora Corne (rev1) | `splitkb/aurora/corne/rev1` |
+| Aurora Helix (rev1) | `splitkb/aurora/helix/rev1` |
+| Aurora Sofle v2 (rev1) | `splitkb/aurora/sofle_v2/rev1` |
+| Kyria (rev3) | `splitkb/kyria/rev3` |
+
+
+Supported converters:
+
+| Converter name | Converter variable | Convert command |
+| :--- | :--- | :--- |
+| Halcyon | `halcyon` | `CONVERT_TO=halcyon` |
+
+
+Supported modules:
+
+| Module name | Module variable |
+| :--- | :--- |
+| [Halcyon TFT LCD Display Module](https://splitkb.com/products/halcyon-tft-lcd-display-module) | `HLC_TFT_DISPLAY` |
+| [Halcyon Rotary Encoder Module](https://splitkb.com/products/halcyon-rotary-encoder-module) | `HLC_ENCODER` |
+| [Halcyon Rotary Encoder Module Revision 2](https://splitkb.com) (TBA) | `HLC_ENCODER_REV2` |
+| [Halcyon Cirque Touchpad Module](https://splitkb.com/products/halcyon-cirque-touchpad-module) | `HLC_CIRQUE_TRACKPAD` |
 
 If you want to add a keyboard which doesn't have support for Halcyon modules yet, please follow the [porting guide](docs/PORTING.md). Please follow the [initial setup](#initial-setup--prerequisites) and [build target](#how-to-configure-your-build-targets) steps from this readme first.
 
@@ -55,6 +81,7 @@ Before configuring your keymaps or building firmware, you need to set up your bu
 
 1. **Start fresh (Optional but recommended):** If you want to start completely from scratch without any default compile options, replace the `qmk.json` in the root folder with the provided `qmk_empty.json`.
 2. **Create your keymap:** Navigate to `keyboards/<keyboard_name>/keymaps` and copy/paste the `default_hlc` or `vial_hlc` folder. Rename it to your desired keymap name.  
+    *(**Updating Keymaps:** If you modify an existing keymap (e.g., from the original Kyria, Elora, or Aurora), make sure to **add the Halcyon Button mappings** as shown in [the porting guide](docs/PORTING.md#4-define-halcyon-button-mappings))*  
     *(If you're unsure what the exact `keyboard_name` is, you can run `qmk list-keyboards | grep <keyboard>`)*
 3. **Add your keymap to the build targets** by running the following command:
    ```bash
@@ -120,14 +147,13 @@ For example, to override the `build` job to use the QMK branch:
 If you already have a custom userspace fork of `qmk/qmk_userspace`, you can merge the Splitkb additions manually.
 
 #### Option A: Adding the Splitkb Upstream Branch
-1. Add this repo as a remote: `git remote add upstream https://github.com/splitkb/qmk_userspace.git`
-2. Fetch the upstream: `git fetch upstream`
-3. Create a new branch based on our halcyon branch: `git checkout -b halcyon upstream/halcyon`
+1. Add this repo as a remote: `git remote add splitkb https://github.com/splitkb/qmk_userspace.git`
+2. Fetch the upstream: `git fetch splitkb`
+3. Create a new branch based on our halcyon branch: `git checkout -b halcyon splitkb/halcyon`
 4. Make your changes and push: `git push -u origin halcyon`
 
 #### Option B: Copying files to your existing branch
 1. Clone or download the files from the Splitkb fork.
 2. Copy `users/halcyon_modules/rules.mk` and the entire `users/halcyon_modules/splitkb/` folder into your personal user folder.
-3. **Updating Keymaps:** If you modify an existing keymap (e.g., from the original Kyria, Elora, or Aurora), make sure to **add 10 new keys** in your keymap matrix. *(Check `keyboards/splitkb/halcyon/kyria/keymaps/default_hlc` for an example).*
 
 > **⚠️ Warning:** We use some quantum functions in our userspace. If your existing userspace relies heavily on custom quantum functions, you may encounter compile conflicts. If you restrict yourself to `_user` functions, you should be fine.

@@ -135,27 +135,34 @@ Build using the standard userspace workflow described in the main [README](READM
 
 # Adding Support for Vial
 
-A keymap from the Vial repository works without modification.  
-To enable Halcyon button mappings, set:
+A keymap from the Vial repository will work when you add the above mentioned support to the vial keymap.
 
+Adding support for the buttons can be done in two ways:
+
+## Using halcyon_keys.c
+You can use the `halcyon_keys.c` file to hardcore the keycodes. You will need to enable Halcyon button mappings for this:
+
+```c
 #define HALCYON_BUTTONS_ENABLE
+```
 
+## Using Vial
 If you want these buttons or encoders to be configurable in Vial, you must update `vial.json`. 
 
 > **Note:** These are general guidelines, the full integration might be different depending on how a keyboard is made up. Feel free to create an issue, ask in our discord or send an email to support@splitkb.com if you're having any issues.
 
-## 1. Expand Matrix
+### 1. Expand Matrix
 
 Increase the column count in `vial.json` by 5.
 
-## 2. Update Layout in KLE
+### 2. Update Layout in KLE
 
 Copy the `keymap` contents into:
 https://editor.keyboard-tools.xyz/
 
 Click “Apply Changes” to refresh the layout preview.
 
-## 3. Add Encoder Definitions
+### 3. Add Encoder Definitions
 
 If the keyboard already defines encoders:
 
@@ -170,7 +177,7 @@ After:
 
 > **Tip:** You can copy and paste between layouts. For example, open a known working `vial.json` (such as the Aurora Helix), copy the encoder section, and adjust indices as needed.
 
-## 4. Add Halcyon Button Columns
+### 4. Add Halcyon Button Columns
 
 Add a new column starting from the last existing column.
 
@@ -198,11 +205,11 @@ After:
 
 Note: Additional buttons are currently inactive and reserved for future modules.
 
-## 5. Apply Changes
+### 5. Apply Changes
 
 Copy the updated layout back into `vial.json`.
 
-## 6. Update Layout Labels
+### 6. Update Layout Labels
 
 Set the `labels` field as follows:
 
