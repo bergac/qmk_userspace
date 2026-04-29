@@ -5,7 +5,7 @@
 
 // Left side (front)
 #define D3 3U
-#define D2 28U
+#define D2 29U
 //      GND
 //      GND
 #define D1 25U
