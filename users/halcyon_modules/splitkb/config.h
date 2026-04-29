@@ -28,6 +28,32 @@
 // Make it easier to enter the bootloader
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
 
+#if MATRIX_COLS == 3
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 8 // 5 extra columns for buttons
+#elif MATRIX_COLS == 4
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 9
+#elif MATRIX_COLS == 5
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 10
+#elif MATRIX_COLS == 6
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 11
+#elif MATRIX_COLS == 7
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 12
+#elif MATRIX_COLS == 8
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 13
+#elif MATRIX_COLS == 9
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 14
+#elif MATRIX_COLS == 10
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 15
+#endif // May need to be expanded in the future
+
 //// VIK
 
 // GPIO1 = 27

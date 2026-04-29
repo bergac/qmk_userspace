@@ -57,18 +57,7 @@ If the keyboard defines a split encoder, also override right-half pins:
 #endif
 ```
 
-## 3. Expand the Matrix
-
-In your keymap's `config.h`, override the column count when Halcyon is enabled. Create the file if needed.
-
-Determine the current column count by counting the number of pins from `keyboard.json`, then add 5:
-
-```c
-#undef MATRIX_COLS
-#define MATRIX_COLS 11  // original + 5
-```
-
-## 4. Define Halcyon Button Mappings
+## 3. Define Halcyon Button Mappings
 
 Update `keymap.c`, or create a new file if you're using the `keymap.json` (e.g. `halcyon_keys.c`).
 
@@ -104,7 +93,7 @@ const uint16_t right_halcyon_buttons[10][5] = {
 (Extend layers as needed; unused entries can remain `_______`.)
 
 
-## 5. Add extra encoder mapping
+## 4. Add extra encoder mapping
 
 Update the keymap to include two extra encoder mappings. Extend layers as needed.
 
@@ -128,7 +117,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 #endif
 ```
 
-## 6. Compile
+## 5. Compile
 
 Build using the standard userspace workflow described in the main [README](README.md).
 

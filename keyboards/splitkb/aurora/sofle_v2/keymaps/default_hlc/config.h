@@ -4,6 +4,3 @@
 #pragma once
 
 #define ENCODER_RESOLUTION 2
-
-#undef MATRIX_COLS
-#define MATRIX_COLS 11
