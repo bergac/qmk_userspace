@@ -31,11 +31,12 @@ Edit:
 users/halcyon_modules/splitkb/config.h
 ```
 
-Add a keyboard-specific override. Pin values must match those defined in `keyboard.json`.
+The Halcyon encoder adds extra encoder pins to the keyboard's existing encoder definition. Because QMK's encoder API does not currently support appending encoder pins from userspace, the complete encoder pin list must be overridden. The first part will be the existing pin values from the `keyboard.json` of your keyboard, you wil then appand `HLC_ENCODER_A` and `HLC_ENCODER_B` respectively. 
 
 Replace `/` with `_` in the keyboard identifier:  
-*(If you're unsure what the exact `keyboard_name` is, you can run `qmk list-keyboards | grep <keyboard>`)*
+*(If you're unsure what the exact `keyboard_name` is, you can run `qmk list-keyboards | grep <keyboard>`).*
 
+Example of a Halcyon Elora:
 ```c
 #ifdef KEYBOARD_splitkb_halcyon_elora_rev2
     #define ENCODER_A_PINS { GP22, HLC_ENCODER_A }
@@ -45,6 +46,7 @@ Replace `/` with `_` in the keyboard identifier:
 
 If the keyboard defines a split encoder, also override right-half pins:
 
+Example of a Aurora Corne:
 ```c
 #ifdef KEYBOARD_splitkb_aurora_corne_rev1
     #define ENCODER_A_PINS { D4, HLC_ENCODER_A }
@@ -95,7 +97,7 @@ const uint16_t right_halcyon_buttons[10][5] = {
 
 ## 4. Add extra encoder mapping
 
-Update the keymap to include two extra encoder mappings. Extend layers as needed.
+Update the keymap to include two extra encoder mappings. Extend layers as needed. The number of entries must match `NUM_ENCODERS` after Halcyon encoder pins have been added. This will be the number of existing encoders plus two.
 
 For a `keymap.json`:
 ```json
@@ -129,7 +131,7 @@ A keymap from the Vial repository will work when you add the above mentioned sup
 Adding support for the buttons can be done in two ways:
 
 ## Using halcyon_keys.c
-You can use the `halcyon_keys.c` file to hardcore the keycodes. You will need to enable Halcyon button mappings for this:
+You can use the `halcyon_keys.c` file to hardcode the keycodes. You will need to enable Halcyon button mappings for this:
 
 ```c
 #define HALCYON_BUTTONS_ENABLE
@@ -138,7 +140,7 @@ You can use the `halcyon_keys.c` file to hardcore the keycodes. You will need to
 ## Using Vial
 If you want these buttons or encoders to be configurable in Vial, you must update `vial.json`. 
 
-> **Note:** These are general guidelines, the full integration might be different depending on how a keyboard is made up. Feel free to create an issue, ask in our discord or send an email to support@splitkb.com if you're having any issues.
+**Note:** These are general guidelines, the full integration might be different depending on how a keyboard is made up. Feel free to create an issue, ask in our discord or send an email to support@splitkb.com if you're having any issues.
 
 ### 1. Expand Matrix
 
@@ -164,7 +166,7 @@ Before:
 After:  
 ![alt text](images/encoder_vial.png)
 
-> **Tip:** You can copy and paste between layouts. For example, open a known working `vial.json` (such as the Aurora Helix), copy the encoder section, and adjust indices as needed.
+**Tip:** You can copy and paste between layouts. For example, open a known working `vial.json` (such as the Aurora Helix), copy the encoder section, and adjust indices as needed.
 
 ### 4. Add Halcyon Button Columns
 

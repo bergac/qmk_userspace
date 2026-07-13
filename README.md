@@ -43,7 +43,7 @@ Supported modules:
 | :--- | :--- |
 | [Halcyon TFT LCD Display Module](https://splitkb.com/products/halcyon-tft-lcd-display-module) | `HLC_TFT_DISPLAY` |
 | [Halcyon Rotary Encoder Module](https://splitkb.com/products/halcyon-rotary-encoder-module) | `HLC_ENCODER` |
-| [Halcyon Rotary Encoder Module Revision 2](https://splitkb.com) (TBA) | `HLC_ENCODER_REV2` |
+| [Halcyon Rotary Encoder Module Revision 2](https://splitkb.com/products/halcyon-rotary-encoder-module) | `HLC_ENCODER_REV2` |
 | [Halcyon Cirque Touchpad Module](https://splitkb.com/products/halcyon-cirque-touchpad-module) | `HLC_CIRQUE_TRACKPAD` |
 
 If you want to add a keyboard which doesn't have support for Halcyon modules yet, please follow the [porting guide](docs/PORTING.md). Please follow the [initial setup](#initial-setup--prerequisites) and [build target](#how-to-configure-your-build-targets) steps from this readme first.
@@ -66,6 +66,9 @@ Before configuring your keymaps or building firmware, you need to set up your bu
    ```
    *(When asked if you want to keep the repository, select option **3**).*
 4. **Clone your forked userspace repository** to your local machine.
+   ```bash
+   git clone https://github.com/YOUR_GITHUB_USERNAME/qmk_userspace
+   ```
 5. **Enable userspace in QMK config**: 
    Navigate into your cloned userspace directory and run:
    ```bash
@@ -74,7 +77,7 @@ Before configuring your keymaps or building firmware, you need to set up your bu
    ```
    *(This ensures your userspace is available to QMK regardless of your current shell location).*
 
-> **Note:** If you have already forked the `qmk/qmk_userspace` repository previously, see the [Adding to an Existing Fork](#adding-halcyon-support-to-an-existing-userspace-fork) section below.
+*Note: If you have already forked the `qmk/qmk_userspace` repository previously, see the [Adding to an Existing Fork](#adding-halcyon-support-to-an-existing-userspace-fork) section below.*
 
 
 ## How to Configure Your Build Targets
@@ -102,7 +105,7 @@ Before configuring your keymaps or building firmware, you need to set up your bu
 #### Useful Userspace Commands
 * **List configured targets:** `qmk userspace-list`
 * **Show generated compile commands:** `qmk userspace-compile -n`
-* **Remove a target:** `qmk userspace-remove -kb <your_keyboard> -km <your_keymap> -e <halcyon_module>=1 -e TARGET=<filename>`
+* **Remove a target:** `qmk userspace-remove -kb <your_keyboard> -km <your_keymap> -e <halcyon_module>=1 -e TARGET=<filename>`. You can also remove a target by removing the specific lines in the `qmk.json` file.
 
 
 ## How to Build with GitHub Actions
@@ -132,7 +135,7 @@ qmk compile -kb <your_keyboard> -km <your_keymap> -e <your_module>=1 -e TARGET=<
 ## Extra Info & Advanced Configuration
 
 ### Modifying GitHub Actions
-If you wish to point GitHub Actions to a different QMK repository (such as the main QMK repo instead of Vial), a different branch, or a specific keymap, you can modify `.github/workflows/build_binaries.yml`.
+If you wish to point GitHub Actions to a different QMK repository (such as the main QMK repo instead of Vial), or a different branch, you can modify `.github/workflows/build_binaries.yml`.
 
 For example, to override the `build` job to use the QMK branch:
 ```yaml
@@ -154,6 +157,6 @@ If you already have a custom userspace fork of `qmk/qmk_userspace`, you can merg
 
 #### Option B: Copying files to your existing branch
 1. Clone or download the files from the Splitkb fork.
-2. Copy `users/halcyon_modules/rules.mk` and the entire `users/halcyon_modules/splitkb/` folder into your personal user folder.
+2. Copy and/or merge `users/halcyon_modules/rules.mk` and the entire `users/halcyon_modules/splitkb/` folder into your personal user folder.
 
-> **⚠️ Warning:** We use some quantum functions in our userspace. If your existing userspace relies heavily on custom quantum functions, you may encounter compile conflicts. If you restrict yourself to `_user` functions, you should be fine.
+**⚠️ Warning:** We use some quantum functions in our userspace. If your existing userspace relies heavily on custom quantum functions, you may encounter compile conflicts. If you restrict yourself to `_user` functions, you should be fine.
