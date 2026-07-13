@@ -4,9 +4,12 @@
 #include QMK_KEYBOARD_H
 #include "halcyon.h"
 #include "transactions.h"
-#include "matrix.h"
 #include "split_util.h"
 #include "_wait.h"
+
+#ifndef HALCYON_LEGACY
+#   include "matrix.h"
+#endif // HALCYON_LEGACY
 
 __attribute__((weak)) void module_suspend_power_down_kb(void);
 __attribute__((weak)) void module_suspend_wakeup_init_kb(void);
@@ -54,12 +57,14 @@ module_t module;
 
 bool backlight_off = false;
 
+#ifndef HALCYON_LEGACY
 extern matrix_row_t matrix[MATRIX_ROWS];
 #define VIRTUAL_COL_START (MATRIX_COLS - 5)
 
 #ifndef BUTTON_PINS
 #   define BUTTON_PINS  (const uint8_t[]){ }
 #endif
+#endif // HALCYON_LEGACY
 
 // Timeout handling
 void backlight_wakeup(void) {
@@ -154,6 +159,7 @@ report_mouse_t pointing_device_task_combined_kb(report_mouse_t left_report, repo
     return pointing_device_task_combined_user(left_report, right_report);
 }
 
+#ifndef HALCYON_LEGACY
 void matrix_init_kb(void) {
     size_t num_pins = sizeof(BUTTON_PINS)/sizeof(BUTTON_PINS[0]);
     for (uint8_t i = 0; i < num_pins; i++) {
@@ -222,3 +228,4 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     return process_record_user(keycode, record);
 }
 #endif // HALCYON_BUTTONS_ENABLE || VIAL_ENABLE
+#endif // HALCYON_LEGACY

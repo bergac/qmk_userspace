@@ -28,6 +28,7 @@
 // Make it easier to enter the bootloader
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
 
+#ifndef HALCYON_LEGACY
 #if MATRIX_COLS == 3
     #undef MATRIX_COLS
     #define MATRIX_COLS 8 // 5 extra columns for buttons
@@ -53,6 +54,7 @@
     #undef MATRIX_COLS
     #define MATRIX_COLS 15
 #endif // May need to be expanded in the future
+#endif // HALCYON_LEGACY
 
 //// VIK
 

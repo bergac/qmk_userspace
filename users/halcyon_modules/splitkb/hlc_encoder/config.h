@@ -11,7 +11,9 @@
 
 #define ENCODER_RESOLUTION 2
 
-#define BUTTON_PINS (const uint8_t[]){ HLC_ENCODER_BUTTON }
+#ifndef HALCYON_LEGACY
+#   define BUTTON_PINS (const uint8_t[]){ HLC_ENCODER_BUTTON }
+#endif // HALCYON_LEGACY
 
 #undef HLC_ENCODER_A
 #define HLC_ENCODER_A 27
