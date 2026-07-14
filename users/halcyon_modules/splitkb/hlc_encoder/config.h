@@ -11,7 +11,7 @@
 
 #define ENCODER_RESOLUTION 2
 
-#define BUTTON_PINS (const uint8_t[]){ HLC_ENCODER_BUTTON }
+#define BUTTON_PINS (const pin_t[]){ HLC_ENCODER_BUTTON }
 
 #undef HLC_ENCODER_A
 #define HLC_ENCODER_A 27

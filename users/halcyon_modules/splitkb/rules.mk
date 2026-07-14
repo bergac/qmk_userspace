@@ -16,6 +16,8 @@ POST_CONFIG_H += $(USER_PATH)/splitkb/config.h
 
 ifeq ($(filter 1, $(HLC_ENCODER) $(HLC_ENCODER_REV2)), 1)
   include $(USER_PATH)/splitkb/hlc_encoder/rules.mk
+  # Add this to any other Halcyon modules that adds buttons to the matrix.
+  SRC += $(USER_PATH)/splitkb/halcyon_buttons.c
 endif
 
 ifdef HLC_TFT_DISPLAY
