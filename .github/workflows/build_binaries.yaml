@@ -19,4 +19,4 @@ jobs:
     if: always() && !cancelled()
     needs: build
     with:
-      release_name: "aurora-latest"
+      release_name: "latest-halcyon-vial"
