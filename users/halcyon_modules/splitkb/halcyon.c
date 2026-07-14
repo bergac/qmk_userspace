@@ -7,9 +7,7 @@
 #include "split_util.h"
 #include "_wait.h"
 
-#ifndef HALCYON_LEGACY
-#   include "matrix.h"
-#endif // HALCYON_LEGACY
+#include "matrix.h"
 
 __attribute__((weak)) void module_suspend_power_down_kb(void);
 __attribute__((weak)) void module_suspend_wakeup_init_kb(void);
@@ -58,13 +56,14 @@ module_t module;
 bool backlight_off = false;
 
 #ifndef HALCYON_LEGACY
+#   define VIRTUAL_COL_START (MATRIX_COLS - 5)
+#endif // HALCYON_LEGACY
+
 extern matrix_row_t matrix[MATRIX_ROWS];
-#define VIRTUAL_COL_START (MATRIX_COLS - 5)
 
 #ifndef BUTTON_PINS
 #   define BUTTON_PINS  (const uint8_t[]){ }
 #endif
-#endif // HALCYON_LEGACY
 
 // Timeout handling
 void backlight_wakeup(void) {
@@ -159,13 +158,40 @@ report_mouse_t pointing_device_task_combined_kb(report_mouse_t left_report, repo
     return pointing_device_task_combined_user(left_report, right_report);
 }
 
-#ifndef HALCYON_LEGACY
+#ifdef HALCYON_LEGACY
+static inline uint8_t legacy_button_row(void) {
+#ifdef SPLIT_KEYBOARD
+    return is_keyboard_left() ? ROWS_PER_HAND : (MATRIX_ROWS - 1);
+#else
+    return MATRIX_ROWS - 1;
+#endif
+}
+#endif // HALCYON_LEGACY
+
 void matrix_init_kb(void) {
     size_t num_pins = sizeof(BUTTON_PINS)/sizeof(BUTTON_PINS[0]);
     for (uint8_t i = 0; i < num_pins; i++) {
         gpio_set_pin_input_high(BUTTON_PINS[i]);
     }
 }
+
+#ifdef HALCYON_LEGACY
+static void scan_legacy_buttons(void) {
+    size_t num_pins = sizeof(BUTTON_PINS) / sizeof(BUTTON_PINS[0]);
+    if (num_pins == 0) return;
+
+    uint8_t row = is_keyboard_left() ? ROWS_PER_HAND : (MATRIX_ROWS - 1);
+
+    for (size_t i = 0; i < num_pins && i < MATRIX_COLS; i++) {
+        if (gpio_read_pin(BUTTON_PINS[i]) == 0) {
+            matrix[row] |= ((matrix_row_t)1 << i);
+        } else {
+            matrix[row] &= ~((matrix_row_t)1 << i);
+        }
+    }
+}
+
+#else
 
 static void scan_buttons(void) {
     size_t num_pins = sizeof(BUTTON_PINS)/sizeof(BUTTON_PINS[0]);
@@ -181,19 +207,29 @@ static void scan_buttons(void) {
         }
     }
 }
+#endif
 
 void matrix_scan_kb(void) {
+#ifdef HALCYON_LEGACY
+    scan_legacy_buttons();
+#else
     scan_buttons();
+#endif
 
     matrix_scan_user();
 }
 
 void matrix_slave_scan_kb(void) {
+#ifdef HALCYON_LEGACY
+    scan_legacy_buttons();
+#else
     scan_buttons();
+#endif
 
     matrix_slave_scan_user();
 }
 
+#ifndef HALCYON_LEGACY
 #if (defined(HALCYON_BUTTONS_ENABLE) || !defined(VIAL_ENABLE))
 __attribute__((weak)) const uint16_t left_halcyon_buttons[10][5];
 __attribute__((weak)) const uint16_t right_halcyon_buttons[10][5];
