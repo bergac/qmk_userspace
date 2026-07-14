@@ -8,9 +8,9 @@
 #define HLC_TFT_DISPLAY
 
 // LCD Configuration
-#define LCD_RST_PIN GP26
-#define LCD_CS_PIN GP13
-#define LCD_DC_PIN GP16
+#define LCD_RST_PIN 26
+#define LCD_CS_PIN 13
+#define LCD_DC_PIN 16
 #define LCD_SPI_DIVISOR 0
 #define LCD_SPI_MODE 3
 #define LCD_WIDTH 135
@@ -28,7 +28,7 @@
 
 // Backlight configuration
 #undef BACKLIGHT_PIN
-#define BACKLIGHT_PIN GP27
+#define BACKLIGHT_PIN 27
 
 // Timeout configuration
 #define QUANTUM_PAINTER_DISPLAY_TIMEOUT HLC_BACKLIGHT_TIMEOUT

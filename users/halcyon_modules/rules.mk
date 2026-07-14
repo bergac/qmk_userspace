@@ -6,3 +6,7 @@ ifneq ($(filter $(strip $(KEYBOARD)), splitkb/halcyon/kyria/rev4 \
                                       splitkb/halcyon/corne/rev2),)
 	include $(USER_PATH)/splitkb/rules.mk
 endif
+
+ifneq ($(filter $(strip $(CONVERT_TO)), halcyon),)
+	include $(USER_PATH)/splitkb/converter/converter_rules.mk
+endif

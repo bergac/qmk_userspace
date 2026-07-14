@@ -5,8 +5,12 @@
 
 #undef ENCODER_RESOLUTION
 
-#if defined(KEYBOARD_splitkb_halcyon_ferris_rev1)
+#if NUM_ENCODERS == 2
 #define ENCODER_RESOLUTION 4
-#else
+#elif NUM_ENCODERS == 4
 #define ENCODER_RESOLUTIONS { 2, 4 }
+#elif NUM_ENCODERS == 6
+#define ENCODER_RESOLUTIONS { 2, 2, 4 }
+#elif NUM_ENCODERS == 8
+#define ENCODER_RESOLUTIONS { 2, 2, 2, 4 }
 #endif

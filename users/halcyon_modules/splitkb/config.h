@@ -3,6 +3,8 @@
 
 #pragma once
 
+#define HALCYON_ENABLE
+
 #define SPLIT_TRANSACTION_IDS_KB MODULE_SYNC
 
 #define SPLIT_POINTING_ENABLE
@@ -14,11 +16,8 @@
 #define BACKLIGHT_LEVELS 10
 #define BACKLIGHT_PWM_CHANNEL RP2040_PWM_CHANNEL_B
 
-//// Keyboard redefines
-
-// Always the same
-#define BACKLIGHT_PIN GP2 //NOT CONNECTED
-#define POINTING_DEVICE_CS_PIN GP2 //NOT CONNECTED
+#define BACKLIGHT_PIN 2 //NOT CONNECTED
+#define POINTING_DEVICE_CS_PIN 2 //NOT CONNECTED
 #define HLC_ENCODER_A NO_PIN
 #define HLC_ENCODER_B NO_PIN
 
@@ -26,116 +25,150 @@
 #define SPLIT_LED_STATE_ENABLE
 #define SPLIT_LAYER_STATE_ENABLE
 
+// Make it easier to enter the bootloader
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
+
+#ifndef HALCYON_LEGACY
+#if MATRIX_COLS == 3
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 8 // 5 extra columns for buttons
+#elif MATRIX_COLS == 4
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 9
+#elif MATRIX_COLS == 5
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 10
+#elif MATRIX_COLS == 6
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 11
+#elif MATRIX_COLS == 7
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 12
+#elif MATRIX_COLS == 8
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 13
+#elif MATRIX_COLS == 9
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 14
+#elif MATRIX_COLS == 10
+    #undef MATRIX_COLS
+    #define MATRIX_COLS 15
+#endif // May need to be expanded in the future
+#endif // HALCYON_LEGACY
+
+//// VIK
+
+// GPIO1 = 27
+// GPIO2 = 26
+// CS = 13
+
+#undef I2C_DRIVER
+#undef I2C1_SDA_PIN
+#undef I2C1_SCL_PIN
+#define I2C_DRIVER I2C0
+#define I2C1_SDA_PIN 16
+#define I2C1_SCL_PIN 17
+
+#undef SPI_DRIVER
+#undef SPI_SCK_PIN
+#undef SPI_MOSI_PIN
+#undef SPI_MISO_PIN
+#define SPI_DRIVER SPID1
+#define SPI_SCK_PIN 14
+#define SPI_MOSI_PIN 15
+#define SPI_MISO_PIN 12
+
+// Increase SERIAL_SPEED to handle 16 bit int matrix better on single wire USART
+#define SELECT_SOFT_SERIAL_SPEED 0
+
+// Keyboard redefines
+#undef ENCODER_A_PINS
+#undef ENCODER_B_PINS
+
 // Kyria
-#if defined(KEYBOARD_splitkb_halcyon_kyria_rev4)
-    #undef ENCODER_A_PINS
+#ifdef KEYBOARD_splitkb_halcyon_kyria_rev4
     #define ENCODER_A_PINS { GP23, HLC_ENCODER_A }
-    #undef ENCODER_B_PINS
     #define ENCODER_B_PINS { GP22, HLC_ENCODER_B }
-    #undef MATRIX_ROWS
-    #define MATRIX_ROWS 10
-    #define LAYOUT_split_3x6_5_hlc(k0G, k0F, k0E, k0D, k0C, k0B, k5B, k5C, k5D, k5E, k5F, k5G, k1G, k1F, k1E, k1D, k1C, k1B, k6B, k6C, k6D, k6E, k6F, k6G, k2G, k2F, k2E, k2D, k2C, k2B, k3D, k2A, k7A, k8D, k7B, k7C, k7D, k7E, k7F, k7G, k3E, k3C, k3B, k3F, k3A, k8A, k8F, k8B, k8C, k8E, k4A, k4B, k4C, k4D, k4E, k9A, k9B, k9C, k9D, k9E) { \
-        {KC_NO, k0B, k0C, k0D, k0E, k0F, k0G}, \
-        {KC_NO, k1B, k1C, k1D, k1E, k1F, k1G}, \
-        {k2A, k2B, k2C, k2D, k2E, k2F, k2G}, \
-        {k3A, k3B, k3C, k3D, k3E, k3F, KC_NO}, \
-        {k4A, k4B, k4C, k4D, k4E, KC_NO, KC_NO}, \
-        {KC_NO, k5B, k5C, k5D, k5E, k5F, k5G}, \
-        {KC_NO, k6B, k6C, k6D, k6E, k6F, k6G}, \
-        {k7A, k7B, k7C, k7D, k7E, k7F, k7G}, \
-        {k8A, k8B, k8C, k8D, k8E, k8F, KC_NO}, \
-        {k9A, k9B, k9C, k9D, k9E, KC_NO, KC_NO} \
-    }
+#endif
+
+#ifdef KEYBOARD_splitkb_kyria_rev3
+    #define ENCODER_A_PINS { F4, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { F5, HLC_ENCODER_B }
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { F4, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { F5, HLC_ENCODER_B }
 #endif
 
 // Elora
-#if defined(KEYBOARD_splitkb_halcyon_elora_rev2)
-    #undef ENCODER_A_PINS
+#ifdef KEYBOARD_splitkb_halcyon_elora_rev2
     #define ENCODER_A_PINS { GP22, HLC_ENCODER_A }
-    #undef ENCODER_B_PINS
     #define ENCODER_B_PINS { GP18, HLC_ENCODER_B }
-    #undef MATRIX_ROWS
-    #define MATRIX_ROWS 12
-    #define LAYOUT_elora_hlc(k0G, k0F, k0E, k0D, k0C, k0B, k6B, k6C, k6D, k6E, k6F, k6G, k1G, k1F, k1E, k1D, k1C, k1B, k7B, k7C, k7D, k7E, k7F, k7G, k2G, k2F, k2E, k2D, k2C, k2B, k8B, k8C, k8D, k8E, k8F, k8G, k3G, k3F, k3E, k3D, k3C, k3B, k4D, k3A, k9A, k10D, k9B, k9C, k9D, k9E, k9F, k9G, k4E, k4C, k4B, k4F, k4A, k10A, k10F, k10B, k10C, k10E, k5A, k5B, k5C, k5D, k5E, k11A, k11B, k11C, k11D, k11E) { \
-	 {KC_NO, k0B, k0C, k0D, k0E, k0F, k0G}, \
-	 {KC_NO, k1B, k1C, k1D, k1E, k1F, k1G}, \
-	 {KC_NO, k2B, k2C, k2D, k2E, k2F, k2G}, \
-	 {k3A, k3B, k3C, k3D, k3E, k3F, k3G}, \
-	 {k4A, k4B, k4C, k4D, k4E, k4F, KC_NO}, \
-     {k5A, k5B, k5C, k5D, k5E, KC_NO, KC_NO}, \
-	 {KC_NO, k6B, k6C, k6D, k6E, k6F, k6G}, \
-	 {KC_NO, k7B, k7C, k7D, k7E, k7F, k7G}, \
-	 {KC_NO, k8B, k8C, k8D, k8E, k8F, k8G}, \
-	 {k9A, k9B, k9C, k9D, k9E, k9F, k9G}, \
-	 {k10A, k10B, k10C, k10D, k10E, k10F, KC_NO}, \
-     {k11A, k11B, k11C, k11D, k11E, KC_NO, KC_NO} \
-}
 #endif
 
 // Corne
-#if defined(KEYBOARD_splitkb_halcyon_corne_rev2)
-    #undef ENCODER_A_PINS
+#ifdef KEYBOARD_splitkb_halcyon_corne_rev2
     #define ENCODER_A_PINS { GP24, HLC_ENCODER_A }
-    #undef ENCODER_B_PINS
     #define ENCODER_B_PINS { GP23, HLC_ENCODER_B }
-    #undef MATRIX_ROWS
-    #define MATRIX_ROWS 10
-    #define LAYOUT_corne_hlc(k0A, k0B, k0C, k0D, k0E, k0F, k5F, k5E, k5D, k5C, k5B, k5A, k1A, k1B, k1C, k1D, k1E, k1F, k6F, k6E, k6D, k6C, k6B, k6A, k2A, k2B, k2C, k2D, k2E, k2F, k7F, k7E, k7D, k7C, k7B, k7A, k3D, k3E, k3F, k8F, k8E, k8D, k4A, k4B, k4C, k4D, k4E, k9A, k9B, k9C, k9D, k9E) { \
-        {k0A, k0B, k0C, k0D, k0E, k0F}, \
-        {k1A, k1B, k1C, k1D, k1E, k1F}, \
-        {k2A, k2B, k2C, k2D, k2E, k2F}, \
-        {KC_NO, KC_NO, KC_NO, k3D, k3E, k3F}, \
-        {k4A, k4B, k4C, k4D, k4E, KC_NO}, \
-        {k5A, k5B, k5C, k5D, k5E, k5F}, \
-        {k6A, k6B, k6C, k6D, k6E, k6F}, \
-        {k7A, k7B, k7C, k7D, k7E, k7F}, \
-        {KC_NO, KC_NO, KC_NO, k8D, k8E, k8F}, \
-        {k9A, k9B, k9C, k9D, k9E, KC_NO} \
-    }
+#endif
+
+#ifdef KEYBOARD_splitkb_aurora_corne_rev1
+    #define ENCODER_A_PINS { D4, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { C6, HLC_ENCODER_B }
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { F6, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { F7, HLC_ENCODER_B }
 #endif
 
 // Lily58
-#if defined(KEYBOARD_splitkb_halcyon_lily58_rev2)
-    #undef ENCODER_A_PINS
-    #define ENCODER_A_PINS { GP23, HLC_ENCODER_A }
-    #undef ENCODER_B_PINS
-    #define ENCODER_B_PINS { GP22, HLC_ENCODER_B }
-    #undef MATRIX_ROWS
-    #define MATRIX_ROWS 12
-    #define LAYOUT_lily58_hlc(k0A, k0B, k0C, k0D, k0E, k0F, k6F, k6E, k6D, k6C, k6B, k6A, k1A, k1B, k1C, k1D, k1E, k1F, k7F, k7E, k7D, k7C, k7B, k7A, k2A, k2B, k2C, k2D, k2E, k2F, k8F, k8E, k8D, k8C, k8B, k8A, k3A, k3B, k3C, k3D, k3E, k3F, k4B, k10B, k9F, k9E, k9D, k9C, k9B, k9A, k4C, k4D, k4E, k4F, k10F, k10E, k10D, k10C, k5A, k5B, k5C, k5D, k5E, k11A, k11B, k11C, k11D, k11E) { \
-        {k0A, k0B, k0C, k0D, k0E, k0F}, \
-        {k1A, k1B, k1C, k1D, k1E, k1F}, \
-        {k2A, k2B, k2C, k2D, k2E, k2F}, \
-        {k3A, k3B, k3C, k3D, k3E, k3F}, \
-        {KC_NO, k4B, k4C, k4D, k4E, k4F}, \
-        {k5A, k5B, k5C, k5D, k5E, KC_NO}, \
-        {k6A, k6B, k6C, k6D, k6E, k6F}, \
-        {k7A, k7B, k7C, k7D, k7E, k7F}, \
-        {k8A, k8B, k8C, k8D, k8E, k8F}, \
-        {k9A, k9B, k9C, k9D, k9E, k9F}, \
-        {KC_NO, k10B, k10C, k10D, k10E, k10F}, \
-        {k11A, k11B, k11C, k11D, k11E, KC_NO} \
-}
+#ifdef KEYBOARD_splitkb_halcyon_lily58_rev2
+    #define ENCODER_A_PINS { GP24, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { GP23, HLC_ENCODER_B }
+#endif
+
+#ifdef KEYBOARD_splitkb_aurora_lily58_rev1
+    #define ENCODER_A_PINS { C6, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { D4, HLC_ENCODER_B }
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { F7, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { F6, HLC_ENCODER_B }
 #endif
 
 // Ferris
-#if defined(KEYBOARD_splitkb_halcyon_ferris_rev1)
-    #undef ENCODER_A_PINS
+#ifdef KEYBOARD_splitkb_halcyon_ferris_rev1
     #define ENCODER_A_PINS { HLC_ENCODER_A }
-    #undef ENCODER_B_PINS
     #define ENCODER_B_PINS { HLC_ENCODER_B }
-    #undef MATRIX_ROWS
-    #define MATRIX_ROWS 10
-    #define LAYOUT_ferris_hlc(k0E, k0D, k0C, k0B, k0A, k5A, k5B, k5C, k5D, k5E, k1E, k1D, k1C, k1B, k1A, k6A, k6B, k6C, k6D, k6E, k2E, k2D, k2C, k2B, k2A, k7A, k7B, k7C, k7D, k7E, k3B, k3A, k8A, k8B, k4A, k4B, k4C, k4D, k4E, k9A, k9B, k9C, k9D, k9E) { \
-	 {k0A, k0B, k0C, k0D, k0E}, \
-	 {k1A, k1B, k1C, k1D, k1E}, \
-	 {k2A, k2B, k2C, k2D, k2E}, \
-	 {k3A, k3B, KC_NO, KC_NO, KC_NO}, \
-     {k4A, k4B, k4C, k4D, k4E}, \
-	 {k5A, k5B, k5C, k5D, k5E}, \
-	 {k6A, k6B, k6C, k6D, k6E}, \
-	 {k7A, k7B, k7C, k7D, k7E}, \
-	 {k8A, k8B, KC_NO, KC_NO, KC_NO}, \
-     {k9A, k9B, k9C, k9D, k9E} \
-}
+#endif
+
+#ifdef KEYBOARD_splitkb_aurora_sweep_rev1
+    #define ENCODER_A_PINS { B5, B3, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { B4, B2, HLC_ENCODER_B }
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { B2, F5, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { B6, D4, HLC_ENCODER_B }
+#endif
+
+// Helix
+#ifdef KEYBOARD_splitkb_aurora_helix_rev1
+    #define ENCODER_A_PINS { B4, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { E6, HLC_ENCODER_B }
+
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { B2, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { B3, HLC_ENCODER_B }
+#endif
+
+// Sofle v2
+#ifdef KEYBOARD_splitkb_aurora_sofle_v2_rev1
+    #define ENCODER_A_PINS { B2, HLC_ENCODER_A }
+    #define ENCODER_B_PINS { B6, HLC_ENCODER_B }
+
+    #undef ENCODER_A_PINS_RIGHT
+    #undef ENCODER_B_PINS_RIGHT
+    #define ENCODER_A_PINS_RIGHT { B2, HLC_ENCODER_A }
+    #define ENCODER_B_PINS_RIGHT { B6, HLC_ENCODER_B }
 #endif

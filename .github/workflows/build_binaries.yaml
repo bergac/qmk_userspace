@@ -12,9 +12,11 @@ jobs:
     with:
       qmk_repo: vial-kb/vial-qmk
       qmk_ref: vial
-
+      preparation_command: 'ln -s "$GITHUB_WORKSPACE/converters/promicro_to_halcyon/" qmk_firmware/platforms/chibios/converters/'
   publish:
     name: 'QMK Userspace Publish'
     uses: qmk/.github/.github/workflows/qmk_userspace_publish.yml@main
     if: always() && !cancelled()
     needs: build
+    with:
+      release_name: "latest-halcyon-vial"

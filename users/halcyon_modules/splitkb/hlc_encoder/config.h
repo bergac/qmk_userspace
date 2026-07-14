@@ -7,8 +7,13 @@
 
 #define HLC_ENCODER
 
-#define HLC_ENCODER_BUTTON GP16
+#define HLC_ENCODER_BUTTON 16
+
+#define ENCODER_RESOLUTION 2
+
+#define BUTTON_PINS (const pin_t[]){ HLC_ENCODER_BUTTON }
+
 #undef HLC_ENCODER_A
-#define HLC_ENCODER_A GP27
+#define HLC_ENCODER_A 27
 #undef HLC_ENCODER_B
-#define HLC_ENCODER_B GP26
+#define HLC_ENCODER_B 26

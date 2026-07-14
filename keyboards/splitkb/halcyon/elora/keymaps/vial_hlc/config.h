@@ -5,7 +5,7 @@
 
 #define VIAL_KEYBOARD_UID {0x91, 0xC0, 0x72, 0xB1, 0xEA, 0x3F, 0xF0, 0xBA}
 
-#define VIAL_UNLOCK_COMBO_ROWS { 0, 6 }
+#define VIAL_UNLOCK_COMBO_ROWS { 0, 5 }
 #define VIAL_UNLOCK_COMBO_COLS { 1, 1 }
 
 // Increase the EEPROM size for layout options
