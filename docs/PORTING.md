@@ -72,7 +72,7 @@ If creating a new file:
   SRC += halcyon_keys.c
   ```
 
-Add:
+Add to either the new file, or the `keymap.c`:
 
 ```c
 #if defined(HALCYON_ENABLE)
@@ -92,7 +92,8 @@ const uint16_t right_halcyon_buttons[10][5] = {
 #endif
 ```
 
-(Extend layers as needed; unused entries can remain `_______`.)
+This is basically a seperate keymap for only the Halcyon buttons. As of now, only the first entries are used by the Halcyon encoder module. Each numbers corrosponds with each layer.
+*Extend layers as needed; unused entries can remain `_______`.*
 
 
 ## 4. Add extra encoder mapping
