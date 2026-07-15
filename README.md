@@ -93,7 +93,7 @@ Before configuring your keymaps or building firmware, you need to set up your bu
 
 1. **Start fresh (Optional but recommended):** If you want to start completely from scratch without any default compile options, replace the `qmk.json` in the root folder with the provided `qmk_empty.json`.
 2. **Create your keymap:** Navigate to `keyboards/<keyboard_name>/keymaps` and copy/paste the `default_hlc` or the `vial_hlc` or `vial_hlc_legacy` folder, if you still want to use vial. Rename it to your desired keymap name.  
-    *(**Updating Keymaps:** If you modify an existing keymap (e.g., from the original Kyria, Elora, or Aurora), and want to use a Halcyon encoder module, make sure to **add the Halcyon Button mappings** as shown in [the porting guide](docs/PORTING.md#4-define-halcyon-button-mappings))*  
+    *(**Updating Keymaps:** If you modify an existing keymap (e.g., from the original Kyria, Elora, or Aurora), and want to use a Halcyon encoder module, make sure to **add the Halcyon Button mappings** and **Encoder mapping** as shown in [the porting guide](docs/PORTING.md#3-define-halcyon-button-mappings))*  
     *(If you're unsure what the exact `keyboard_name` is, you can run `qmk list-keyboards | grep <keyboard>`)*  
     *For existing Vial users, you should use the `vial_hlc_legacy` keymap as the location mapping is different in the newer version and this is not compatible with the new version. You would otherwise have to recreate your keymap in Vial. Otherwise you can use the newer `vial_hlc` keymap.*
 3. **Add your keymap to the build targets** by running the following command:
