@@ -29,7 +29,7 @@ Supported keyboards:
 | Aurora Sofle v2 (rev1)* | `splitkb/aurora/sofle_v2/rev1` |
 | Kyria (rev3)* | `splitkb/kyria/rev3` |
 
-*These require the the Halcyon converter
+*Requires the Halcyon converter
 
 
 Supported converters:
