@@ -118,6 +118,11 @@ Before configuring your keymaps or building firmware, you need to set up your bu
 * **Remove a target:** `qmk userspace-remove -kb <your_keyboard> -km <your_keymap> -e <halcyon_module>=1 -e TARGET=<filename>`. You can also remove a target by removing the specific lines in the `qmk.json` file.
 
 
+## Changing module behavior
+
+Please see the [seperate docs](docs/MODULES.md).
+
+
 ## How to Build with GitHub Actions
 
 If you don't want to build locally, GitHub can compile the firmware for you automatically.
