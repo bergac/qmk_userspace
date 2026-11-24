@@ -15,16 +15,23 @@
 #define HSV_NUM_OFF 142, 104, 77
 #define HSV_NUM_ON 142, 191, 245
 
+// Dark blue ish
 #define HSV_LAYER_0 0, 0, 160
-#define HSV_LAYER_3 0, 82, 255
-#define HSV_LAYER_1 23, 89, 255
-#define HSV_LAYER_2 43, 71, 255
+// Orange
+#define HSV_LAYER_1 25, 255, 245
+// Red
+#define HSV_LAYER_2 0, 177, 245
+// Purple
+#define HSV_LAYER_3 201, 162, 204
 #define HSV_LAYER_4 77, 64, 255
+#define HSV_LAYER_5 176, 77, 255
 #define HSV_LAYER_6 131, 99, 255
 #define HSV_LAYER_7 154, 94, 255
-#define HSV_LAYER_5 176, 77, 255
 // #define HSV_LAYER_8 213, 56, 255
 #define HSV_LAYER_UNDEF 0, 255, 255
+
+// Grey
+#define HSV_LAYER_NAME_OFF 153, 153, 153
 
 extern painter_device_t lcd;
 extern painter_device_t lcd_surface;

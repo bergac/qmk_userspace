@@ -8,35 +8,35 @@ This is the splitkb userspace repository. It allows for an external set of QMK k
 
 Supported controllers:
 
-| Controller name |
-| :--- |
+| Controller name          |
+|:-------------------------|
 | Halcyon Wired controller |
 
 
 Supported keyboards:
 
-| Keyboard name | Keyboard variable |
-| :--- | :--- |
-| Halcyon Kyria (rev4) | `splitkb/halcyon/kyria/rev4` |
-| Halcyon Elora (rev2) | `splitkb/halcyon/elora/rev2` |
-| Halcyon Corne (rev2) | `splitkb/halcyon/corne/rev2` |
-| Halcyon Ferris (rev1) | `splitkb/halcyon/ferris/rev1` |
-| Halcyon Lily58 (rev2) | `splitkb/halcyon/lily58/rev2` |
-| Aurora Sweep (rev1)* | `splitkb/aurora/sweep/rev1` |
-| Aurora Lily58 (rev1)* | `splitkb/aurora/lily58/rev1` |
-| Aurora Corne (rev1)* | `splitkb/aurora/corne/rev1` |
-| Aurora Helix (rev1)* | `splitkb/aurora/helix/rev1` |
+| Keyboard name           | Keyboard variable              |
+|:------------------------|:-------------------------------|
+| Halcyon Kyria (rev4)    | `splitkb/halcyon/kyria/rev4`   |
+| Halcyon Elora (rev2)    | `splitkb/halcyon/elora/rev2`   |
+| Halcyon Corne (rev2)    | `splitkb/halcyon/corne/rev2`   |
+| Halcyon Ferris (rev1)   | `splitkb/halcyon/ferris/rev1`  |
+| Halcyon Lily58 (rev2)   | `splitkb/halcyon/lily58/rev2`  |
+| Aurora Sweep (rev1)*    | `splitkb/aurora/sweep/rev1`    |
+| Aurora Lily58 (rev1)*   | `splitkb/aurora/lily58/rev1`   |
+| Aurora Corne (rev1)*    | `splitkb/aurora/corne/rev1`    |
+| Aurora Helix (rev1)*    | `splitkb/aurora/helix/rev1`    |
 | Aurora Sofle v2 (rev1)* | `splitkb/aurora/sofle_v2/rev1` |
-| Kyria (rev3)* | `splitkb/kyria/rev3` |
+| Kyria (rev3)*           | `splitkb/kyria/rev3`           |
 
 *Requires the Halcyon converter
 
 
 Supported converters:
 
-| Converter name | Converter variable | Convert command |
-| :--- | :--- | :--- |
-| Halcyon | `halcyon` | `CONVERT_TO=halcyon` |
+| Converter name | Converter variable | Convert command      |
+|:---------------|:-------------------|:---------------------|
+| Halcyon        | `halcyon`          | `CONVERT_TO=halcyon` |
 
 
 Supported modules:
@@ -97,20 +97,24 @@ Before configuring your keymaps or building firmware, you need to set up your bu
     *(If you're unsure what the exact `keyboard_name` is, you can run `qmk list-keyboards | grep <keyboard>`)*  
     *For existing Vial users, you should use the `vial_hlc_legacy` keymap as the location mapping is different in the newer version and this is not compatible with the new version. You would otherwise have to recreate your keymap in Vial. Otherwise you can use the newer `vial_hlc` keymap.*
 3. **Add your keymap to the build targets** by running the following command:
-   ```bash
-   qmk userspace-add -kb <your_keyboard> -km <your_keymap> -e <halcyon_module>=1 -e TARGET=<filename>
-   ```
-   * *This command will automatically update your `qmk.json` file.*
-   * **`filename`**: Choose a descriptive filename so you can easily differentiate between module firmware (e.g., `halcyon_kyria_default_encoder`).
-   * **`halcyon_module`**: Replace this with one of the following environment variables depending on your hardware:
+      ```bash
+      qmk userspace-add -kb <your_keyboard> -km <your_keymap> -e <halcyon_module>=1 -e TARGET=<filename>
+      ```
+      i.e. for splitkb/corne:
+     ```bash 
+     qmk userspace-add -kb splitkb/halcyon/corne/rev2 -km vial_hlc -e HLC_CIRQUE_TRACKPAD=1 -e TARGET=corne_trackpad_vial_hlc
+     ```
+      * *This command will automatically update your `qmk.json` file.*
+      * **`filename`**: Choose a descriptive filename so you can easily differentiate between module firmware (e.g., `halcyon_kyria_default_encoder`).
+      * **`halcyon_module`**: Replace this with one of the following environment variables depending on your hardware:
 
-   | Module Variable | Description |
-   | :--- | :--- |
-   | `HLC_NONE` | You have a module installed on the *other* half, but not this half. |
-   | `HLC_ENCODER` | You have an encoder module installed. |
-   | `HLC_ENCODER_REV2` | You have a second revision encoder module installed. |
-   | `HLC_TFT_DISPLAY` | You have a TFT RGB display installed. |
-   | `HLC_CIRQUE_TRACKPAD` | You have a Cirque trackpad installed. |
+      | Module Variable | Description |
+      | :--- | :--- |
+      | `HLC_NONE` | You have a module installed on the *other* half, but not this half. |
+      | `HLC_ENCODER` | You have an encoder module installed. |
+      | `HLC_ENCODER_REV2` | You have a second revision encoder module installed. |
+      | `HLC_TFT_DISPLAY` | You have a TFT RGB display installed. |
+      | `HLC_CIRQUE_TRACKPAD` | You have a Cirque trackpad installed. |
 
 #### Useful Userspace Commands
 * **List configured targets:** `qmk userspace-list`
